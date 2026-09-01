@@ -20,7 +20,7 @@
 
     gtag('config', 'UA-41295198-4');
   </script>
-<link rel="shortcut icon" href="favicon.png"><script type="text/javascript" src="vr.aacb8faea97618ef9184.bundle.js"></script></head>
+<link rel="shortcut icon" href="favicon.png"><script type="text/javascript" src="vr.caaa05632efad8bc57e4.bundle.js"></script></head>
 
 <body>
   <div class="menu-icon">
@@ -41,6 +41,14 @@
         Leave out any parameter (e.g. <em>[2,3,1]</em> or <em>[a,b,1]</em>) to draw a single point/vector from the origin instead of a curve or surface<br>
         Any point/vector automatically gets live X/Y/Z sliders (menu on the right in VR) so you can drag its value in real time
       </p>
+      <h2>Matrix transformation mode:</h2>
+      <p>
+        Visualize how a 3x3 matrix A transforms space: the unit sphere becomes an ellipsoid, a vector U becomes U' = A x U, and the dominant eigenvector is highlighted.<br>
+        Edit the matrix and vector with the sliders on the right (in VR) - everything updates live.
+      </p>
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="mode-toggle-button">Cambiar a Matriz</button>
+      </div>
       <h2>Examples:</h2>
       <div class="examples">
         <a href="?function=f(t)%3D[cos(t),sin(t),t]">f(t)=[cos(t), sin(t), t]</a>
@@ -72,19 +80,27 @@
     <!-- <a-sky color="#444"></a-sky> -->
     <a-entity class="environment" environment="groundTexture: none; grid: 1x1; gridColor: #222; ground: flat; lighting: none; skyType: color; skyColor: #222; fog: 0.97; horizonColor: #222; groundColor: #333; groundColor2: #fff"></a-entity>
 
-      <a-entity data-aabb-collider-dynamic="true" class="grabbable" id="plot" scale="0.5 0.5 0.5" position="0 1 -0.6" graph="uMin: -6.2; uMax: 6.2; vMin: -6.2; vMax: 6.2; showBoundingBox: true; showBoundingLabels: false; showWireframe: false; function: f(u,v) = [u, v, a * cos(v) + b * sin(u)]"></a-entity >
-      
-      <a-entity visible="false" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" position="-0.6 1 0" rotation="0 70 0" graph-parameter-ui="graph: #plot"></a-entity>
-      <a-entity visible="false" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" position="0.6 1 0" rotation="0 -70 0" graph-variable-ui="graph: #plot"></a-entity>
-      
-      <a-entity position="0.7 1 0.4" rotation="0 -90 0" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" visible="false">
+      <a-entity data-mode="function" data-aabb-collider-dynamic="true" class="grabbable" id="plot" scale="0.5 0.5 0.5" position="0 1 -0.6" graph="uMin: -6.2; uMax: 6.2; vMin: -6.2; vMax: 6.2; showBoundingBox: true; showBoundingLabels: false; showWireframe: false; function: f(u,v) = [u, v, a * cos(v) + b * sin(u)]"></a-entity >
+
+      <a-entity data-mode="function" visible="false" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" position="-0.6 1 0" rotation="0 70 0" graph-parameter-ui="graph: #plot"></a-entity>
+      <a-entity data-mode="function" visible="false" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" position="0.6 1 0" rotation="0 -70 0" graph-variable-ui="graph: #plot"></a-entity>
+
+      <a-entity data-mode="function" position="0.7 1 0.4" rotation="0 -90 0" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" visible="false">
         <a-entity my-toggle="title: bounding box; active: true" event-set__active="_target: #plot; graph.showBoundingBox: true" event-set__inactive="_target: #plot; graph.showBoundingBox: false" position="0 0 0"></a-entity>
         <a-entity my-toggle="title: labels; active: false" event-set__active="_target: #plot; graph.showBoundingLabels: true" event-set__inactive="_target: #plot; graph.showBoundingLabels: false" position="0 0.2 0"></a-entity>
         <a-entity my-toggle="title: wireframe; active: false" event-set__active="_target: #plot; graph.showWireframe: true" event-set__inactive="_target: #plot; graph.showWireframe: false" position="0.25 0 0"></a-entity>
         <a-entity my-toggle="title: grid; active: false" event-set__active="_target: #plot; graph.showGrid: true" event-set__inactive="_target: #plot; graph.showGrid: false" position="0.25 0.2 0"></a-entity>
       </a-entity>
 
-      <a-entity id="function-text" position="0 0.01 -0.3" rotation="-90 0 0" scale="1.2 1.2 1.2" my-text="text: ; color: #777"></a-entity>
+      <a-entity data-mode="function" id="function-text" position="0 0.01 -0.3" rotation="-90 0 0" scale="1.2 1.2 1.2" my-text="text: ; color: #777"></a-entity>
+
+      <a-entity data-mode="matrix" visible="false" data-aabb-collider-dynamic="true" class="grabbable" id="matrix-plot" scale="0.4 0.4 0.4" position="0 1 -0.6" matrix-graph></a-entity>
+
+      <a-entity data-mode="matrix" visible="false" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" position="0.75 1.1 0" rotation="0 -70 0" matrix-ui="graph: #matrix-plot"></a-entity>
+
+      <a-entity data-mode="matrix" position="-0.7 1 0.4" rotation="0 90 0" data-aabb-collider-dynamic="true" class="grabbable visible-on-vr" visible="false">
+        <a-entity my-toggle="title: modo matriz; active: false" mode-toggle position="0 0 0"></a-entity>
+      </a-entity>
 
       <a-entity light="type: spot; color: #ffffff; intensity: 0.9; castShadow: false" position="0 2 0" rotation="-90 0 0"></a-entity>
       <a-entity light="type: ambient; color: #ffffff; intensity: 0.6;" position="0 3 0"></a-entity>
@@ -102,23 +118,69 @@
 <script>
 
   const scene = document.querySelector('a-scene');
-  const vrElements = document.querySelectorAll(".visible-on-vr");
   const environment = document.querySelector(".environment");
   console.log(environment);
-  scene.addEventListener("enter-vr", () => {
-    vrElements.forEach((el) => {
-      el.setAttribute("visible", "true")
+
+  // --- App mode: "function" (the original graph plotter) vs "matrix"
+  // (the new matrix-transformation visualizer). Every entity that belongs
+  // to one or the other carries data-mode="function"/"matrix"; elements
+  // that should only ever show up inside VR additionally carry the
+  // .visible-on-vr class, same as before.
+  let currentMode = 'function';
+  let applyingMode = false;
+
+  function applyVisibility() {
+    const inVR = scene.is('vr-mode') || scene.is('ar-mode');
+    document.querySelectorAll('[data-mode]').forEach((el) => {
+      const matches = el.dataset.mode === currentMode;
+      if (!matches) {
+        el.setAttribute('visible', 'false');
+        return;
+      }
+      if (el.classList.contains('visible-on-vr')) {
+        el.setAttribute('visible', inVR ? 'true' : 'false');
+      } else {
+        el.setAttribute('visible', 'true');
+      }
     });
+  }
+
+  window.setAppMode = function (mode) {
+    if (mode === currentMode || applyingMode) {
+      return;
+    }
+    applyingMode = true;
+    currentMode = mode;
+    applyVisibility();
+
+    const modeButton = document.querySelector('.mode-toggle-button');
+    if (modeButton) {
+      modeButton.textContent = currentMode === 'function' ? 'Cambiar a Matriz' : 'Cambiar a Funcion';
+    }
+    document.querySelectorAll('[mode-toggle]').forEach((el) => {
+      if (el.components && el.components['my-toggle']) {
+        el.components['my-toggle'].setActiveState(currentMode === 'matrix');
+      }
+    });
+    applyingMode = false;
+  };
+
+  document.querySelector('.mode-toggle-button').addEventListener('click', () => {
+    window.setAppMode(currentMode === 'function' ? 'matrix' : 'function');
+  });
+
+  scene.addEventListener("enter-vr", () => {
+    applyVisibility();
     if (scene.is('ar-mode')) {
       environment.setAttribute("visible", "false")
     }
   })
   scene.addEventListener("exit-vr", () => {
-    vrElements.forEach((el) => {
-      el.setAttribute("visible", "false")
-    });
+    applyVisibility();
     environment.setAttribute("visible", "true")
   })
+
+  applyVisibility();
 
   const plot = document.querySelector("#plot");
   const textEl = document.querySelector("#function-text");
