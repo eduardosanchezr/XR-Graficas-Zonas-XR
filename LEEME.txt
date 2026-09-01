@@ -1,0 +1,47 @@
+XR GRAPH — build listo para Meta Quest (PWA)
+==============================================
+
+Qué es esta carpeta
+--------------------
+Es el build de producción de XR Graph, ya convertido en PWA (Progressive
+Web App): tiene manifest.json, íconos y un service worker que cachea
+todos los archivos la primera vez que se abre, así que después funciona
+sin conexión.
+
+Cómo publicarlo (2 minutos, gratis, sin cuenta)
+-------------------------------------------------
+1. Entra a https://app.netlify.com/drop desde tu computadora.
+2. Arrastra esta carpeta completa (todo lo que está dentro de "dist",
+   NO el .zip) a la ventana del navegador.
+3. Netlify te da una URL tipo https://algo-al-azar.netlify.app — esa
+   URL ya tiene HTTPS automático, que es obligatorio para que WebXR
+   funcione.
+
+(Alternativas si ya tienes cuenta: Vercel, GitHub Pages, Cloudflare
+Pages — cualquier hosting estático con HTTPS sirve igual.)
+
+Cómo usarlo en el Meta Quest
+------------------------------
+1. Ponte el visor, abre el navegador "Meta Quest Browser" (o Chrome
+   dentro del Quest si lo tienes instalado).
+2. Ve a la URL que te dio Netlify.
+3. Deberías ver la app y un botón para "Enter VR" (entrar a VR) —
+   tócalo para entrar al modo inmersivo.
+4. Para "instalarla" como accesos directo: en el menú del navegador
+   busca la opción de instalar la página / agregarla a la pantalla de
+   inicio (el ícono y nombre "XR Graph" ya están configurados en el
+   manifest). Así te queda como un ícono aparte, sin tener que escribir
+   la URL cada vez.
+5. Después de la primera visita, el service worker deja todo cacheado,
+   así que vuelve a abrir aunque no tengas buena señal wifi.
+
+Notas
+------
+- El modo AR (ar.html) usa un marcador impreso (marker.png) y está
+  pensado para cámaras de teléfono/tablet, no aplica al Quest en modo
+  standalone — puedes ignorarlo si solo usarás VR.
+- Si algún día cambias el código fuente y quieres regenerar este
+  build: dentro de la carpeta "webxr" corre
+      npm install
+      npm run build
+  (el resultado nuevo queda en webxr/dist).
