@@ -20,7 +20,7 @@
 
     gtag('config', 'UA-41295198-4');
   </script>
-<link rel="shortcut icon" href="favicon.png"><script type="text/javascript" src="vr.9eb94c431cb390efdd16.bundle.js"></script></head>
+<link rel="shortcut icon" href="favicon.png"><script type="text/javascript" src="vr.6f6770460e645e6634f9.bundle.js"></script></head>
 
 <body>
   <div class="menu-icon">
@@ -93,8 +93,8 @@
 
     <!-- <a-log rotation="0 45 0" position="-2 0 -1"></a-log> -->
 
-    <a-entity interaction-hands aabb-collider="objects: .grabbable" id="lhand" hand-controls="hand: left; handModelStyle: highPoly" mixin="touch"></a-entity>
-    <a-entity interaction-hands aabb-collider="objects: .grabbable" id="rhand" hand-controls="hand: right; handModelStyle: highPoly" mixin="touch"></a-entity>
+    <a-entity interaction-hands aabb-collider="objects: .grabbable" id="lhand" robust-hand-controls="hand: left; color: #4fc3f7" mixin="touch"></a-entity>
+    <a-entity interaction-hands aabb-collider="objects: .grabbable" id="rhand" robust-hand-controls="hand: right; color: #ff6b9d" mixin="touch"></a-entity>
 
     <a-entity camera  orbit-controls="target: 0 1 -0.6; initialPosition: -0.5 1.4 0.3; minDistance: -0.01"></a-entity>
   </a-scene>
